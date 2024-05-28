@@ -4,10 +4,14 @@ import com.example.demo.domain.Article;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
+import java.sql.PreparedStatement;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -27,10 +31,11 @@ public class JdbcArticleRepository implements ArticleRepository{
                     rs.getLong("author_id"),
                     rs.getLong("board_id"),
                     rs.getString("title"),
-                    rs.getString("content"),
-                    rs.getTimestamp("created_date").toLocalDateTime(),
-                    rs.getTimestamp("modified_date").toLocalDateTime()
+                    rs.getString("content")
             );
+
+            article.setId(rs.getLong("id"));
+
             return article;
         };
     }
@@ -39,9 +44,23 @@ public class JdbcArticleRepository implements ArticleRepository{
     public void saveArticle(Article article) {
         String sql = "insert into article (author_id, board_id, title, content, created_date, modified_date)" +
                 "VALUES (?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, article.getMemberId(), article.getBoardId(),
-                article.getTitle(), article.getContent(),
-                LocalDateTime.now(), LocalDateTime.now());
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, new
+                    String[]{"id"});
+            ps.setLong(1, article.getMemberId());
+            ps.setLong(2, article.getBoardId());
+            ps.setString(3, article.getTitle());
+            ps.setString(4, article.getContent());
+            ps.setTimestamp(5, Timestamp.valueOf(article.getCreatedDay()));
+            ps.setTimestamp(6, Timestamp.valueOf(article.getUpdatedDay()));
+            return ps;
+        }, keyHolder);
+
+        Long key = keyHolder.getKey().longValue();
+        article.setId(key);
+
     }
 
     @Override

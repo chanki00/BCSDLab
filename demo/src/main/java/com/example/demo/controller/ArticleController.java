@@ -24,8 +24,8 @@ public class ArticleController {
 
     @GetMapping("/articles")
     @ResponseBody
-    public ResponseEntity<List<ArticleDto>> findByBoardId(@RequestParam(name = "boardId", required = false, defaultValue = "1")Long boardId) {
-        List<ArticleDto> articles = articleService.findByBoardId(boardId);
+    public ResponseEntity<List<Article>> findByBoardId(@RequestParam(name = "boardId", required = false, defaultValue = "1")Long boardId) {
+        List<Article> articles = articleService.findAll(boardId);
         return ResponseEntity.ok(articles);
     }
 
@@ -44,11 +44,12 @@ public class ArticleController {
     }
 
     @PutMapping("/articles/{id}")
+    @ResponseBody
     public ResponseEntity<Article> updateArticle(@PathVariable("id") long id, @RequestBody Article newArticle) {
         Article article = articleService.findById(id);
         if (article == null) return ResponseEntity.notFound().build();
-        articleService.updateArticle(id, newArticle);
-        return ResponseEntity.ok(newArticle);
+        Article updatedArticle = articleService.updateArticle(id, newArticle);
+        return ResponseEntity.ok(updatedArticle);
     }
 
     @DeleteMapping("/articles/{id}")
@@ -57,10 +58,4 @@ public class ArticleController {
         return ResponseEntity.noContent().build();
     }
 
-//    @GetMapping("/articles")
-//    @ResponseBody
-//    public ResponseEntity<List<ArticleDto>> readAllArticles() {
-//        List<ArticleDto> articles = articleService.findAll();
-//        return ResponseEntity.ok(articles);
-//    }
 }

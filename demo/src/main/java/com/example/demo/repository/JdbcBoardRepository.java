@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 
+
 @Primary
 @Repository
 public class JdbcBoardRepository implements BoardRepository{

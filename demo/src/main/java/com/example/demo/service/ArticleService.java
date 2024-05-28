@@ -32,28 +32,29 @@ public class ArticleService {   //C: 생성, R: 조회, U: 수정, D: 삭제
         return articleRepository.findById(id);
     }
 
-    public void updateArticle(long id, Article article) {
-        articleRepository.updateArticle(id, article);
+    public Article updateArticle(long id, Article article) {
+        Article foundArticle = articleRepository.findById(id);
+        foundArticle.setBoardId(article.getBoardId());
+        foundArticle.setTitle(article.getTitle());
+        foundArticle.setContent(article.getContent());
+
+        articleRepository.updateArticle(id, foundArticle);
+        return foundArticle;
     }
 
     public void deleteById(long id) {
         articleRepository.deleteById(id);
     }
 
-    public List<ArticleDto> findAll() {
+    public List<Article> findAll(Long boardId) {
         List<Article> articles = articleRepository.findAll();
-        List<ArticleDto> articleDtoList = new ArrayList<>();
+        List<Article> articleList = new ArrayList<>();
         for (Article article : articles) {
-            ArticleDto articleDto = new ArticleDto();
-            articleDto.setTitle(article.getTitle());
-            articleDto.setContent(article.getContent());
-            articleDto.setAuthor(memberRepository.findById(article.getMemberId()).getName());
-            articleDto.setDate(article.getCreatedDay());
-
-            articleDtoList.add(articleDto);
+            if (article.getBoardId() == boardId)
+                articleList.add(article);
         }
 
-        return articleDtoList;
+        return articleList;
     }
 
     public List<ArticleDto> findByBoardId(long boardId) {

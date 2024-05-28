@@ -3,14 +3,15 @@ package com.example.demo.domain;
 import java.time.LocalDateTime;
 
 public class Article {
-    private long memberId;
-    private long boardId;
+    private Long id;
+    private Long memberId;
+    private Long boardId;
     private String title;
     private String content;
     private LocalDateTime createdDay;
     private LocalDateTime updatedDay;
 
-    public Article(long memberId, long boardId, String title, String content, LocalDateTime createdDay, LocalDateTime updatedDay) {
+    public Article(Long memberId, Long boardId, String title, String content) {
         this.memberId = memberId;
         this.boardId = boardId;
         this.title = title;
@@ -19,19 +20,19 @@ public class Article {
         this.updatedDay = LocalDateTime.now();
     }
 
-    public long getMemberId() {
+    public Long getMemberId() {
         return memberId;
     }
 
-    public void setMemberId(long memberId) {
+    public void setMemberId (Long memberId) {
         this.memberId = memberId;
     }
 
-    public long getBoardId() {
+    public Long getBoardId() {
         return boardId;
     }
 
-    public void setBoardId(long boardId) {
+    public void setBoardId(Long boardId) {
         this.boardId = boardId;
     }
 
@@ -65,5 +66,13 @@ public class Article {
 
     public void setUpdatedDay(LocalDateTime updatedDay) {
         this.updatedDay = updatedDay;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
