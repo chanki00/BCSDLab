@@ -2,14 +2,17 @@ package com.example.demo.service;
 
 import com.example.demo.domain.Board;
 import com.example.demo.repository.BoardRepository;
+import com.example.demo.repository.JdbcBoardRepository;
 import org.springframework.stereotype.Service;
+
+import javax.sql.DataSource;
 
 @Service
 public class BoardService {
     private final BoardRepository boardRepository;
 
-    public BoardService(BoardRepository boardRepository) {
-        this.boardRepository = boardRepository;
+    public BoardService(DataSource dataSource) {
+        this.boardRepository = new JdbcBoardRepository(dataSource);
     }
 
     public void saveBoard(Board board) {

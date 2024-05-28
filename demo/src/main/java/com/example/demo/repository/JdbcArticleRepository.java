@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import com.example.demo.domain.Article;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -10,6 +11,7 @@ import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Primary
 @Repository
 public class JdbcArticleRepository implements ArticleRepository{
 
@@ -39,12 +41,12 @@ public class JdbcArticleRepository implements ArticleRepository{
                 "VALUES (?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, article.getMemberId(), article.getBoardId(),
                 article.getTitle(), article.getContent(),
-                article.getCreatedDay(), article.getUpdatedDay());
+                LocalDateTime.now(), LocalDateTime.now());
     }
 
     @Override
     public Article findById(long id) {
-        String sql = "select * from article where id = ?";
+        String sql = "select * from article where id=?";
 
         Article article = jdbcTemplate.queryForObject(sql, articleRowMapper(), id);
 
@@ -73,6 +75,7 @@ public class JdbcArticleRepository implements ArticleRepository{
         return articleList;
     }
 
+    @Override
     public List<Article> findAllonBoard(Long board_id) {
         String sql = "select * from article where board_id=?";
         List<Article> articleList = jdbcTemplate.query(sql, articleRowMapper(), board_id);

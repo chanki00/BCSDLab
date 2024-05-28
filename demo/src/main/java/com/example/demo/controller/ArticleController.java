@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 @Controller
@@ -15,12 +16,18 @@ public class ArticleController {
 
     private final ArticleService articleService;
 
-    @Autowired
-    public ArticleController(ArticleService articleService) {
-        this.articleService = articleService;
+    public ArticleController(DataSource dataSource) {
+        this.articleService = new ArticleService(dataSource);
     }
 
     //객체를 리턴 -> HTTP 응답 제어 불가능 -> ResponseEntity 사용
+
+    @GetMapping("/articles")
+    @ResponseBody
+    public ResponseEntity<List<ArticleDto>> findByBoardId(@RequestParam(name = "boardId", required = false, defaultValue = "1")Long boardId) {
+        List<ArticleDto> articles = articleService.findByBoardId(boardId);
+        return ResponseEntity.ok(articles);
+    }
 
     @PostMapping("/articles")
     public ResponseEntity<Article> createArticle(@RequestBody Article article) {
@@ -29,6 +36,7 @@ public class ArticleController {
     }
 
     @GetMapping("/articles/{id}")
+    @ResponseBody
     public ResponseEntity<Article> readArticle(@PathVariable("id") long id) {
         Article article = articleService.findById(id);
         if (article == null) return ResponseEntity.notFound().build();
@@ -49,10 +57,10 @@ public class ArticleController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/articles")
-    @ResponseBody
-    public ResponseEntity<List<ArticleDto>> readAllArticles() {
-        List<ArticleDto> articles = articleService.findAll();
-        return ResponseEntity.ok(articles);
-    }
+//    @GetMapping("/articles")
+//    @ResponseBody
+//    public ResponseEntity<List<ArticleDto>> readAllArticles() {
+//        List<ArticleDto> articles = articleService.findAll();
+//        return ResponseEntity.ok(articles);
+//    }
 }

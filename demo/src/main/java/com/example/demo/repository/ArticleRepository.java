@@ -15,4 +15,6 @@ public interface ArticleRepository {
     void deleteById(long id);
 
     List<Article> findAll();
+
+    List<Article> findAllonBoard(Long board_id);
 }

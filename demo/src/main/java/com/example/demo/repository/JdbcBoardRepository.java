@@ -1,12 +1,16 @@
 package com.example.demo.repository;
 
 import com.example.demo.domain.Board;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 
+@Primary
+@Repository
 public class JdbcBoardRepository implements BoardRepository{
     private final JdbcTemplate jdbcTemplate;
 

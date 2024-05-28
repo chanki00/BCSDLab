@@ -42,4 +42,9 @@ public class ArticleRepositoryimpl implements ArticleRepository{
         }
         return articles;
     }
+
+    @Override
+    public List<Article> findAllonBoard(Long board_id) {
+        return null;
+    }
 }
