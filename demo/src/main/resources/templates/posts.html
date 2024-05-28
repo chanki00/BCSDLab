@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판</title>
+</head>
+<body>
+<h3>자유게시판</h3>
+
+<div th:each="article : ${articles}">
+    <h1 th:text="${article.title}"></h1>
+<!--    <p th:text="${article.author + ' | ' + #dates.format(article.date, 'yyyy-MM-dd')}"></p>   dateformat 어떻게 하는거지?-->
+    <p th:text="${article.author + ' | ' + article.date}"></p>
+    <p th:text="${article.content}"></p>
+</div>
+
+
+</body>
+</html>
