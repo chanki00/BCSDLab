@@ -12,6 +12,10 @@ public class BoardRepositoryimpl implements BoardRepository{
     private Map<Long, Board> boardMap = new HashMap<>();
     private long id = 1L;
 
+    public BoardRepositoryimpl() {
+        boardMap.put(id++, new Board("자유게시판"));
+    }
+
     @Override
     public void saveBoard(Board board) {
         boardMap.put(id++, board);

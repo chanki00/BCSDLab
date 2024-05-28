@@ -12,6 +12,10 @@ public class MemberRepositoryimpl implements MemberRepository{
     private Map<Long, Member> memberMap = new HashMap<>();
     private Long id = 1L;
 
+    public MemberRepositoryimpl() {
+        memberMap.put(id++, new Member("회원1", "email-1", "pwd1"));
+    }
+
     @Override
     public void saveMember(Member member) {
         memberMap.put(id++, member);
