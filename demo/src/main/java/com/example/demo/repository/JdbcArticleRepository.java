@@ -78,8 +78,7 @@ public class JdbcArticleRepository implements ArticleRepository{
         String sql = "update article set title=?, content=?, modified_date=? where id=?";
         jdbcTemplate.update(sql, article.getTitle(), article.getContent(), LocalDateTime.now(), id);
     }
-
-    @Transactional
+    
     @Override
     public void deleteById(long id) {
         String sql = "delete from article where id=?";
