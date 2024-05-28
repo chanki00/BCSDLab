@@ -7,16 +7,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.sql.DataSource;
-
 @Controller
 public class MemberController {
 
     private final MemberService memberService;
 
     @Autowired
-    public MemberController(DataSource dataSource) {
-        this.memberService = new MemberService(dataSource);
+    public MemberController(MemberService memberService) {
+        this.memberService = memberService;
     }
 
     @PostMapping("/members")

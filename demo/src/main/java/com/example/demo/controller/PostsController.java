@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.sql.DataSource;
 import java.util.List;
 
 @Controller
@@ -19,9 +18,9 @@ public class PostsController {
     private final ArticleService articleService;
     private final BoardService boardService;
 
-    public PostsController(DataSource dataSource) {
-        this.articleService = new ArticleService(dataSource);
-        this.boardService = new BoardService(dataSource);
+    public PostsController(ArticleService articleService, BoardService boardService) {
+        this.articleService = articleService;
+        this.boardService = boardService;
     }
 
     @GetMapping("/posts")
