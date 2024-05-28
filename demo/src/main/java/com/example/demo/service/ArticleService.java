@@ -53,4 +53,9 @@ public class ArticleService {   //C: 생성, R: 조회, U: 수정, D: 삭제
         return articleDtoList;
     }
 
+//    public List<ArticleDto> findByBoardId(long boardId) {
+//        List<ArticleDto> articles = new ArrayList<>();
+//
+//    }
+
 }
